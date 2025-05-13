@@ -6,7 +6,7 @@ build/
 # Executable
 fdupes_mime
 # Test files (if any)
-test_files/
+test_area/
 # OS generated files
 .DS_Store
 *.swp
