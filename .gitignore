@@ -1,0 +1,15 @@
+# Build artifacts
+build/
+*.o
+*.so
+*.a
+# Executable
+fdupes_mime
+# Test files (if any)
+test_files/
+# OS generated files
+.DS_Store
+*.swp
+*~
+# IDE files
+.vscode/
