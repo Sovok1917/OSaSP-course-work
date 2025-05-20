@@ -17,44 +17,42 @@ RELEASE_CFLAGS = -O2 -Werror $(COMMON_CFLAGS)
 
 # Directories
 SRC_DIR = src
+# All build artifacts will go directly into BUILD_DIR
 BUILD_DIR = build
-DEBUG_BUILD_DIR = $(BUILD_DIR)/debug
-RELEASE_BUILD_DIR = $(BUILD_DIR)/release
 
-# Output directory based on MODE
+# Set CFLAGS based on MODE
 ifeq ($(MODE), release)
   CURRENT_CFLAGS = $(RELEASE_CFLAGS)
-  CURRENT_BUILD_DIR = $(RELEASE_BUILD_DIR)
 else
   CURRENT_CFLAGS = $(DEBUG_CFLAGS)
-  CURRENT_BUILD_DIR = $(DEBUG_BUILD_DIR)
 endif
 
 # Source files and object files
+# Object files will now be in $(BUILD_DIR)
 SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(patsubst $(SRC_DIR)/%.c,$(CURRENT_BUILD_DIR)/%.o,$(SRCS))
+OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 
 # Program name
 PROG_NAME = fdupes_mime
-# Place executable in the current build directory (debug or release)
-PROG = $(CURRENT_BUILD_DIR)/$(PROG_NAME)
+# Place executable directly in $(BUILD_DIR)
+PROG = $(BUILD_DIR)/$(PROG_NAME)
 
 # Default target: ensure build directory exists before trying to build the program
-all: $(CURRENT_BUILD_DIR) $(PROG)
+all: $(BUILD_DIR) $(PROG)
 
 # Link object files to create the executable
-# Depends on the build directory existing (added as an order-only prerequisite for $(PROG))
-$(PROG): $(OBJS) | $(CURRENT_BUILD_DIR)
+# Depends on the build directory existing
+$(PROG): $(OBJS) | $(BUILD_DIR)
 	$(CC) $(CURRENT_CFLAGS) $^ -o $@ $(LDLIBS)
 
 # Compile source files into object files
-# Ensure build directory exists before compiling (already handled by $(CURRENT_BUILD_DIR) dependency)
-$(CURRENT_BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(CURRENT_BUILD_DIR)
+# Object files go into $(BUILD_DIR)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CURRENT_CFLAGS) -I$(SRC_DIR) -c $< -o $@
 
 # Create build directory (target for prerequisites)
-$(CURRENT_BUILD_DIR):
-	mkdir -p $(CURRENT_BUILD_DIR)
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
 .PHONY: clean all
 
