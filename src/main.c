@@ -250,7 +250,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    printf("Scanning directories (using 'file' command for MIME types)...\n");
+    //printf("Scanning directories (using 'file' command for MIME types)...\n");
     for (int i = 0; i < g_options.num_directories; ++i) {
         char resolved_dir_path[MAX_PATH_LEN];
         // Resolve the top-level directory path once
@@ -258,12 +258,12 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "Error resolving path for input directory %s: %s. Skipping.\n", g_options.directories[i], strerror(errno));
             continue;
         }
-        printf("Processing directory: %s\n", resolved_dir_path);
+        //printf("Processing directory: %s\n", resolved_dir_path);
         // Pass the already resolved directory path to collect_files_from_directory
         collect_files_from_directory(resolved_dir_path, all_files, &g_options);
     }
 
-    printf("Collected %zu files matching criteria.\n", all_files->count);
+    //printf("Collected %zu files matching criteria.\n", all_files->count);
 
     if (all_files->count > 1) {
         printf("Sorting files by size...\n");
@@ -290,10 +290,10 @@ int main(int argc, char *argv[]) {
         printf("Not enough files to compare for duplicates, or no files found.\n");
     }
 
-    printf("Cleaning up resources...\n");
+    //printf("Cleaning up resources...\n");
     free_file_list(all_files);
     free_global_options();
 
-    printf("Done.\n");
+    //printf("Done.\n");
     return 0;
 }

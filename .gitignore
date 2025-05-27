@@ -13,3 +13,5 @@ test_area/
 *~
 # IDE files
 .vscode/
+
+.pdf
