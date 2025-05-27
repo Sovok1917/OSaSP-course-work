@@ -266,7 +266,7 @@ int main(int argc, char *argv[]) {
     //printf("Collected %zu files matching criteria.\n", all_files->count);
 
     if (all_files->count > 1) {
-        printf("Sorting files by size...\n");
+        //printf("Sorting files by size...\n");
         sort_file_list(all_files);
         find_and_print_duplicates(all_files);
     } else if (all_files->count == 0 && g_options.num_directories > 0) {
